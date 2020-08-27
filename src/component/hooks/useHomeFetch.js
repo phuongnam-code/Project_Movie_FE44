@@ -5,8 +5,10 @@ import axios from "axios";
 
 export default function useHomeFetch(searchTerm) {
 	const [state, setState] = useState([]);
+	const [error, setError] = useState(false);
 
 	const fetchMovie = async (url) => {
+		setError(false);
 		try {
 			const response = await axios.get(url);
 			console.log("%c response", "color: white; background-color: #2274A5", response);
@@ -14,6 +16,7 @@ export default function useHomeFetch(searchTerm) {
 			const result = response.data;
 			setState(result);
 		} catch (error) {
+			setError(true);
 			console.error(error);
 		}
 	};
@@ -32,5 +35,5 @@ export default function useHomeFetch(searchTerm) {
 		}
 	}, [searchTerm, state]);
 
-	return [state, fetchMovie];
+	return [{ state, error }, fetchMovie];
 }

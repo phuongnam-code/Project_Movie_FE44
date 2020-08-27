@@ -13,7 +13,7 @@ import { SEARCH_BASE_URL, MOVIE_API_URL } from "../../config/setting";
 
 function Home() {
 	const [searchTerm, setSearchTerm] = useState("");
-	const [state, fetchMovie] = useHomeFetch(searchTerm);
+	const [{ state, error }, fetchMovie] = useHomeFetch(searchTerm);
 
 	const searchMovies = (search) => {
 		const url = search ? SEARCH_BASE_URL + search : MOVIE_API_URL;
