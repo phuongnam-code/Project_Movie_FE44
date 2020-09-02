@@ -13,4 +13,13 @@ export const StyledGlobal = createGlobalStyle`
         text-decoration: none;
         color:#000;
     }
+    ul{
+        margin:0;
+        padding: 0;
+    }
+    li{
+        list-style:none;
+        cursor: pointer;
+        border:none;
+    }
 `;

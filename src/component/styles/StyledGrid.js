@@ -14,6 +14,7 @@ export const StyledGrid = styled.div`
 `;
 
 export const StyledGridContent = styled.div`
+	text-align: center;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(100px, 1fr));
 	grid-gap: 30px;

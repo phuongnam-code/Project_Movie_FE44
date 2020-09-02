@@ -1,20 +1,32 @@
-import { domain, groupID, MOVIE_API_URL } from "../config/setting";
+import { domain, groupID } from "../config/setting";
 import axios from "axios";
 
 export class MoviesService {
+	// lấy danh sách phim
 	getListMovie = () => {
-		console.log(axios.get(MOVIE_API_URL));
 		return axios({
 			url: `${domain}/api/QuanLyPhim/LayDanhSachPhim?maNhom=${groupID}`,
 			method: "get",
 		});
 	};
-	getInfoMovie = (movieCode) => {
+
+	//lấy thông tin hệ thống rạp
+	getCinemaSystem = () => {
 		return axios({
-			url: `${domain}/api/quanlyrap/laythongtinlichchieuphim?maphim=${movieCode}`,
+			url: `${domain}/api/QuanLyRap/LayThongTinHeThongRap`,
 			method: "get",
 		});
 	};
+
+	// lấy thông tin chi tiết phim
+	getInfoOnCinemaSystemShowtimes = (movieCode) => {
+		return axios({
+			url: `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${movieCode}&maNhom=${groupID}`,
+			method: "get",
+		});
+	};
+
+	// lấy thông tin phòng vé
 	getInfoTicketRoom = (showthimesCode) => {
 		return axios({
 			url: `${domain}/api/quanlydatve/laydanhsachphongve?malichchieu=${showthimesCode}`,
