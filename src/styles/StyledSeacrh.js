@@ -13,7 +13,7 @@ export const StyledSearchContent = styled.div`
 	max-width: 1280px;
 	width: 100%;
 	height: 55px;
-	background: #e6f7ff;
+	background: #fff;
 	margin: 0 auto;
 	border-radius: 40px;
 	position: relative;
@@ -24,7 +24,7 @@ export const StyledSearchContent = styled.div`
 		left: 20px;
 		top: 12px;
 		color: red;
-		z-index: 1000;
+		z-index: 10000;
 	}
 
 	input {
@@ -37,7 +37,7 @@ export const StyledSearchContent = styled.div`
 		width: 95%;
 		background: transparent;
 		height: 40px;
-		color: #000;
+		color: black;
 		box-sizing: border-box;
 		:focus {
 			outline: none;

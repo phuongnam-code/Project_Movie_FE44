@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledGrid, StyledGridContent } from "../styles/StyledGrid";
+import { StyledGrid, StyledGridContent } from "../../styles/StyledGrid";
 
 function Grid({ header, children }) {
 	return (

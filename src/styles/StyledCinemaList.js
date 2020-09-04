@@ -6,6 +6,8 @@ export const StyledCinemaContainer = styled.div`
 	padding: 0 20px;
 
 	.cinemaContentTabs {
+		background: white;
+		border-radius: 5px;
 		border: 1px solid #ccc;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 		display: grid;

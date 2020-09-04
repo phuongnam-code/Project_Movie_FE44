@@ -5,19 +5,19 @@ export const systemCode = "cgv";
 export const groupID = "GP14"; //mã nhóm phim
 export const domain = "http://movie0706.cybersoft.edu.vn"; //server
 
-// http://movie0706.cybersoft.edu.vn + /api/QuanLyPhim/LayDanhSachPhim?maNhom= + {MaNhom} + &tenPhim= + {tenPhim}
-//              domain               + /api/QuanLyPhim/LayDanhSachPhim?maNhom= + groupID  + &tenPhim= + searchKeyWord
-export const SEARCH_BASE_URL = `${domain}/api/QuanLyPhim/LayDanhSachPhim?maNhom=${groupID}&tenPhim=`; //tìm kiếm
-
-// http://movie0706.cybersoft.edu.vn + /api/QuanLyPhim/LayDanhSachPhim?maNhom= + {maNhom}
-//              domain               + /api/QuanLyPhim/LayDanhSachPhim?maNhom= + groupID
+//API (1) => lấy danh sách phim, tìm kiếm
 export const MOVIE_API_URL = `${domain}/api/QuanLyPhim/LayDanhSachPhim?maNhom=${groupID}`;
+export const SEARCH_BASE_URL = `${domain}/api/QuanLyPhim/LayDanhSachPhim?maNhom=${groupID}&tenPhim=`;
 
-// http://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinHeThongRap
+//API (2) lấy danh sách hệ thống rạp
 export const CINEMA_SYSTEM_URL = `${domain}/api/QuanLyRap/LayThongTinHeThongRap`;
 
-// http://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom={MaNhom}
-export const INFO_CINEMA_CLUSTER_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${groupID}`;
+//API (3)
+export const INFO_CINEMA_CLUSTER_ALL_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${groupID}`;
+export const INFO_CINEMA_CLUSTER_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${systemCode}&maNhom=${groupID}`;
 
-// http://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap={maHeThongRap}&maNhom={MaNhom}
-export const ABC_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${systemCode}&maNhom=${groupID}`;
+//API (4) chi tiết phim
+export const DETAIL_FILM_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=`;
+
+//API (5) lấy chi tiết phòng vé
+export const INFO_BOOKING_TICKET_URL = `${domain}/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=`;

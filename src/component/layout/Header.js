@@ -1,29 +1,39 @@
 import React from "react";
-import { StyledGridHeader, StyledLogoHeader, StyledLinkHeader } from "../styles/StyledHeader";
-import { Link } from "@reach/router";
+import { StyledGridHeader, StyledLogoHeader, StyledLinkHeader } from "../../styles/StyledHeader";
+import { NavLink } from "react-router-dom";
+import logo from "../images/logo.svg";
+import logoCybersoft from "../images/logocybersoft.png";
 
 function Header() {
 	return (
 		<div style={{ background: "#B4B4B2" }}>
 			<StyledGridHeader>
 				<StyledLogoHeader>
-					<Link to="/">
-						<h1 className="logoHeader">
-							<span>M</span>ovies <span>F</span>ree
-						</h1>
-					</Link>
+					<NavLink to="/" className="logoHeader">
+						<div className="logoMovie">
+							<img src={logo} alt="logo" />
+						</div>
+						<div className="nameLogoHerder">
+							<span className="logoStyle ">F</span>ree
+							<br />
+							<span className="logoStyle ">M</span>ovies
+						</div>
+					</NavLink>
 				</StyledLogoHeader>
 				<StyledLinkHeader>
-					<Link to="/" className="linkItem">
+					<NavLink to="/" className="linkItem">
 						HOME
-					</Link>
-					<Link to="/movies" className="linkItem">
+					</NavLink>
+					<NavLink to="/movies" className="linkItem">
 						MOVIES
-					</Link>
-					<Link to="/login" className="linkItem">
+					</NavLink>
+					<NavLink to="/login" className="linkItem">
 						LOGIN
-					</Link>
+					</NavLink>
 				</StyledLinkHeader>
+				<div className="logoCybersoft">
+					<img src={logoCybersoft} alt="cybersoft" />
+				</div>
 			</StyledGridHeader>
 		</div>
 	);

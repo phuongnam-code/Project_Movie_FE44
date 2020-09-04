@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { listMovieService } from "../../services/MoviesService";
+// import { listMovieService } from "../../services/MoviesService";
 import { MOVIE_API_URL, CINEMA_SYSTEM_URL, INFO_CINEMA_CLUSTER_URL, ABC_URL, domain, groupID } from "../../config/setting";
 import axios from "axios";
 
