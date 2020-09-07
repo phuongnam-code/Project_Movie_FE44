@@ -2,6 +2,7 @@ export const userLogin = "userLogin";
 export const accessToken = "accessToken";
 
 export const systemCode = "cgv";
+export const groupID2 = "GP15";
 export const groupID = "GP14"; //mã nhóm phim
 export const domain = "http://movie0706.cybersoft.edu.vn"; //server
 
@@ -13,7 +14,7 @@ export const SEARCH_BASE_URL = `${domain}/api/QuanLyPhim/LayDanhSachPhim?maNhom=
 export const CINEMA_SYSTEM_URL = `${domain}/api/QuanLyRap/LayThongTinHeThongRap`;
 
 //API (3)
-export const INFO_CINEMA_CLUSTER_ALL_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${groupID}`;
+export const INFO_CINEMA_CLUSTER_ALL_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${groupID2}`;
 export const INFO_CINEMA_CLUSTER_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${systemCode}&maNhom=${groupID}`;
 
 //API (4) chi tiết phim

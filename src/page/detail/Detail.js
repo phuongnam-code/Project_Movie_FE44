@@ -1,40 +1,77 @@
-import React, { useState, useEffect } from "react";
-import { DETAIL_FILM_URL } from "../../config/setting";
-import axios from "axios";
+import React, { useEffect } from "react";
 import moment from "moment";
 import { StyledDetail, StyledDetailNavigation, StyledDetailMovieInfo, StyledDetailShowtimes } from "../../styles/StyledDetail";
 import { NavLink } from "react-router-dom";
-import { Link } from "@reach/router";
 import NoImage from "../../component/images/no_image.jpg";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { Row, Col } from "antd";
+import "antd/dist/antd.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getDetailMovieAction } from "../../redux/actions/movieAction";
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+
+function rand() {
+	return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+	const top = 50 + rand();
+	const left = 50 + rand();
+
+	return {
+		top: `${top}%`,
+		left: `${left}%`,
+		transform: `translate(-${top}%, -${left}%)`,
+	};
+}
+
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		position: "absolute",
+		width: 400,
+		backgroundColor: theme.palette.background.paper,
+		border: "2px solid #000",
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+	},
+}));
 
 function Detail(props) {
-	const [detail, setDetail] = useState({});
-	let detailCluster = [];
+	const detail = useSelector((state) => state.movieReducer.detailMovie);
+	const dispatch = useDispatch();
 	useEffect(async () => {
-		const response = await axios(`${DETAIL_FILM_URL}${props.match.params.maPhim}`);
-		// console.log(response.data);
-
-		response.data.heThongRapChieu.map((item) => {
-			let tenCumRap;
-			item.cumRapChieu.map((index) => {
-				console.log(index);
-				tenCumRap = index.tenCumRap;
-			});
-			return detailCluster.push({
-				tenCumRap: tenCumRap,
-			});
-		});
-		// console.log(detailCluster);
-		setDetail(response.data);
+		dispatch(getDetailMovieAction(props.match.params.maPhim));
 	}, []);
+
+	const classes = useStyles();
+	// getModalStyle is not a pure function, we roll the style only on the first render
+	const [modalStyle] = React.useState(getModalStyle);
+	const [open, setOpen] = React.useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const body = (
+		<div style={modalStyle} className={classes.paper}>
+			<video width="320" height="240" controls="controls">
+				<source src={detail.trailer} />
+			</video>
+		</div>
+	);
 
 	return (
 		<StyledDetail>
 			<StyledDetailNavigation>
 				<div className="navigation-content">
-					<Link to="/">
+					<NavLink to="/">
 						<p>Home</p>
-					</Link>
+					</NavLink>
 					<p>|</p>
 					<p>{detail.tenPhim}</p>
 				</div>
@@ -59,7 +96,9 @@ function Detail(props) {
 									<p>{moment(detail.ngayKhoiChieu).format("MMMM Do YYYY")}</p>
 								</div>
 							</div>
-							<button className="btn">Trailer</button>
+							<button type="button" onClick={handleOpen} className="btn">
+								Trailer
+							</button>
 						</div>
 					</div>
 				</div>
@@ -77,16 +116,55 @@ function Detail(props) {
 							<a>Sat</a>
 						</div>
 					</div>
-					<div className="showtimesContent">
-						<div className="logoCinema">
+					<Tabs className="showtimesContent">
+						<TabList className="logoCinema">
 							{detail.heThongRapChieu?.map((rap) => (
-								<img src={rap.logo} alt={rap.maHeThongRap} />
+								<Tab className="logoCinemaTab">
+									<img src={rap.logo} alt={rap.maHeThongRap} />
+								</Tab>
 							))}
-						</div>
-						<div></div>
-					</div>
+						</TabList>
+						<>
+							{detail.heThongRapChieu?.map((hethongRap) => (
+								<TabPanel>
+									{hethongRap.cumRapChieu?.map((cumRap) => (
+										<div className="lichChieu">
+											<div style={{ marginRight: "10px" }}>
+												<img src={detail.hinhAnh} alt="" width="150px" />
+											</div>
+											<div>
+												<h1>{cumRap.tenCumRap}</h1>
+												{cumRap.lichChieuPhim?.slice(0, 1).map((lichChieu) => {
+													return (
+														<h2>
+															{lichChieu.tenRap} - {lichChieu.thoiLuong}p
+														</h2>
+													);
+												})}
+												<h4>Xuất chiếu:</h4>
+												<Row className="row_config">
+													{cumRap.lichChieuPhim?.slice(0, 12).map((lichChieu) => {
+														return (
+															<Col span={4} className="col_config">
+																<NavLink to={`/bookingticket/${lichChieu.maLichChieu}`}>
+																	{moment(lichChieu.ngayChieuGioChieu).format("hh:mm A")}
+																</NavLink>
+															</Col>
+														);
+													})}
+												</Row>
+											</div>
+										</div>
+									))}
+								</TabPanel>
+							))}
+						</>
+					</Tabs>
 				</div>
 			</StyledDetailShowtimes>
+			<Modal open={open} onClose={handleClose} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
+				{body}
+			</Modal>
 		</StyledDetail>
 	);
 }

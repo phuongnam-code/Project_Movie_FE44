@@ -1,9 +1,9 @@
 import React from "react";
 import { StyledFooter, StyledFooterContent, StyledFooterDesign } from "../../styles/StyledFooter";
-import useHomeFetch from "../hooks/useHomeFetch";
+import { useSelector } from "react-redux";
 
 function Footer() {
-	const [{ cinemaList }] = useHomeFetch();
+	const cinemaList = useSelector((state) => state.movieReducer.systemCinema);
 	return (
 		<StyledFooter>
 			<StyledFooterContent>

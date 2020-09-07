@@ -3,16 +3,18 @@
 # Style console.log: 
     console.log("%c response", "color: white; background-color: #2274A5", response);
 
-# HomePage
+# HomePage (Folder: ./component/layout)
 
     1. Herder { Header.js }
 
     2. Carousel { Carousel.js }
 
-    3. Search { Search.js }
+    3. Search { SearchMovie.js }
 
-    4. Grid (List Film) { Grid.js, MovieItem.js }
+    4. Grid (List Film) { GridMovie.js }
 
-    5. List Cinema { CinemaList.js }
+    5. List Cinema { CinemaSystem.js }
 
     6. Footer
+
+# DetailPage

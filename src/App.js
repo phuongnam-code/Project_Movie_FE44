@@ -8,11 +8,7 @@ import Login from "./page/login/Login";
 import Detail from "./page/detail/Detail";
 import Profile from "./page/profile/Profile";
 import { StyledGlobal } from "./styles/StyledGlobal";
-
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faCheckSquare, faCoffee } from "@fortawesome/free-solid-svg-icons";
-library.add(fab, faCheckSquare, faCoffee);
+import BookingTicket from "./page/bookingticket/BookingTicket";
 
 function App() {
 	return (
@@ -23,6 +19,7 @@ function App() {
 				<HomeTemplate exact path="/login" Component={Login} />
 				<HomeTemplate exact path="/profile" Component={Profile} />
 				<HomeTemplate exact path="/detail/:maPhim" Component={Detail} />
+				<HomeTemplate exact path="/bookingticket/:maPhim" Component={BookingTicket} />
 				<AdminTemplate />
 			</div>
 		</BrowserRouter>

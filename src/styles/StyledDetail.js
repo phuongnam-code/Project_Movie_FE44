@@ -11,11 +11,12 @@ export const StyledDetailMovieInfo = styled.div`
 
 	.movieinfo-container {
 		padding: 0 20px;
+		max-width: 1280px;
+
+		margin: 0 auto;
 	}
 	.movieinfo-content {
-		max-width: 1280px;
 		min-height: 427px;
-		margin: 0 auto;
 		background: rgb(0, 0, 0, 0.7);
 		border-radius: 20px;
 		position: relative;
@@ -169,6 +170,21 @@ export const StyledDetailShowtimes = styled.div`
 			img {
 				padding: 20px;
 				width: 100%;
+			}
+			.logoCinemaTab {
+				border-radius: 5px;
+			}
+		}
+		.lichChieu {
+			background: white;
+			padding: 20px;
+			border-radius: 5px;
+			display: flex;
+			.lichChieu_tenPhim {
+			}
+
+			img {
+				border-radius: 5px;
 			}
 		}
 	}
