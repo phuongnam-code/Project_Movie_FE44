@@ -22,3 +22,13 @@ export const DETAIL_FILM_URL = `${domain}/api/QuanLyRap/LayThongTinLichChieuPhim
 
 //API (5) lấy chi tiết phòng vé
 export const INFO_BOOKING_TICKET_URL = `${domain}/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=`;
+
+//API (6,7) đăng kí, đăng nhập
+export const SIGNUP_URL = `${domain}/api/QuanLyNguoiDung/DangKy`;
+export const LOGIN_URL = `${domain}/api/QuanLyNguoiDung/DangNhap`;
+
+//API (8) Thông tin cá nhân, xem lịch sử đặt vé
+//http://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan
+
+//API (9) Thay đổi thông tin cá nhân
+//http://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung

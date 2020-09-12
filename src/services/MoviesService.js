@@ -1,7 +1,7 @@
 import { domain, groupID } from "../config/setting";
 import axios from "axios";
 
-export class MoviesService {
+class MoviesService {
 	// lấy danh sách phim
 	getListMovie = () => {
 		return axios({

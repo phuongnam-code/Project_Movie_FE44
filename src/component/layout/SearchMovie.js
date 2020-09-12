@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { StyledSearch, StyledSearchContent } from "../../styles/StyledSeacrh";
+import SearchIcon from "@material-ui/icons/Search";
 
 function Search({ callback }) {
 	const [searchValue, setSearchValue] = useState("");
@@ -18,6 +19,7 @@ function Search({ callback }) {
 	return (
 		<StyledSearch>
 			<StyledSearchContent>
+				<SearchIcon className="searchIcon" />
 				<input type="text" placeholder="Search Movie" value={searchValue} onChange={handleChanges} />
 			</StyledSearchContent>
 		</StyledSearch>

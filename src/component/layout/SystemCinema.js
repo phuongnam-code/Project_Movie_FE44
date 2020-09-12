@@ -4,6 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { NavLink } from "react-router-dom";
 
 function CinemaList() {
 	const dsHeThongRap = useSelector((state) => state.movieReducer.systemCinema);
@@ -26,7 +27,6 @@ function CinemaList() {
 							<Tabs className="cinemaTabPanel_tabs">
 								<TabList className="cinemaTabPanel_tablist selectScroll">
 									{rap.lstCumRap.map((lsCumRap) => {
-										console.log(lsCumRap);
 										return (
 											<Tab className="cinemaTabPanel_tab">
 												<h3>{lsCumRap.tenCumRap}</h3>
@@ -39,22 +39,24 @@ function CinemaList() {
 									{rap.lstCumRap.map((lsCumRap) => (
 										<TabPanel className="cinemaTabPanel_tabpanel">
 											{lsCumRap.danhSachPhim.map((phim) => (
-												<div className="tabpanelContent">
-													<div className="imgTapanel">
-														<img src={phim.hinhAnh} alt="" />
+												<NavLink to={`/detail/${phim.maPhim}`}>
+													<div className="tabpanelContent">
+														<div className="imgTapanel">
+															<img src={phim.hinhAnh} alt="" />
+														</div>
+														<div className="titleTapanel">
+															<h2>{phim.tenPhim}</h2>
+															<>
+																{phim.lstLichChieuTheoPhim.slice(0, 1).map((item) => (
+																	<p>
+																		<p>{item.tenRap}</p>
+																		<p>Khởi chiếu: {moment(item.ngayChieuGioChieu).format("MMM Do YY")}</p>
+																	</p>
+																))}
+															</>
+														</div>
 													</div>
-													<div className="titleTapanel">
-														<h2>{phim.tenPhim}</h2>
-														<>
-															{phim.lstLichChieuTheoPhim.slice(0, 1).map((item) => (
-																<p>
-																	<p>{item.tenRap}</p>
-																	<p>Khởi chiếu: {moment(item.ngayChieuGioChieu).format("MMM Do YY")}</p>
-																</p>
-															))}
-														</>
-													</div>
-												</div>
+												</NavLink>
 											))}
 										</TabPanel>
 									))}

@@ -19,12 +19,13 @@ export const StyledSearchContent = styled.div`
 	position: relative;
 	color: #fff;
 
-	.fa-search {
+	.searchIcon {
 		position: absolute;
 		left: 20px;
-		top: 12px;
+		top: 15px;
 		color: red;
 		z-index: 10000;
+		font-size: 30px;
 	}
 
 	input {

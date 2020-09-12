@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import pixel from "../component/images/pixel.png";
 
 export const StyledGlobal = createGlobalStyle`
     body {
@@ -7,7 +8,8 @@ export const StyledGlobal = createGlobalStyle`
         box-sizing: border-box;
         font-family: 'Montserrat', sans-serif;
         font-size:18px;
-        background:rgb(242 242 238);
+        // background:rgb(242 242 238);
+        background-image: url(${pixel});
     }
 
     a {

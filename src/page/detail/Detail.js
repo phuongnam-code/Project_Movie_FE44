@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { StyledDetail, StyledDetailNavigation, StyledDetailMovieInfo, StyledDetailShowtimes } from "../../styles/StyledDetail";
 import { NavLink } from "react-router-dom";
@@ -8,62 +8,18 @@ import { Row, Col } from "antd";
 import "antd/dist/antd.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetailMovieAction } from "../../redux/actions/movieAction";
-import Modal from "@material-ui/core/Modal";
-import { makeStyles } from "@material-ui/core/styles";
-
-function rand() {
-	return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-	const top = 50 + rand();
-	const left = 50 + rand();
-
-	return {
-		top: `${top}%`,
-		left: `${left}%`,
-		transform: `translate(-${top}%, -${left}%)`,
-	};
-}
-
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		position: "absolute",
-		width: 400,
-		backgroundColor: theme.palette.background.paper,
-		border: "2px solid #000",
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
-	},
-}));
+import Modal from "react-bootstrap/Modal";
+import ReactPlayer from "react-player";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 function Detail(props) {
 	const detail = useSelector((state) => state.movieReducer.detailMovie);
 	const dispatch = useDispatch();
-	useEffect(async () => {
+	useEffect(() => {
 		dispatch(getDetailMovieAction(props.match.params.maPhim));
 	}, []);
 
-	const classes = useStyles();
-	// getModalStyle is not a pure function, we roll the style only on the first render
-	const [modalStyle] = React.useState(getModalStyle);
-	const [open, setOpen] = React.useState(false);
-
-	const handleOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const body = (
-		<div style={modalStyle} className={classes.paper}>
-			<video width="320" height="240" controls="controls">
-				<source src={detail.trailer} />
-			</video>
-		</div>
-	);
+	const [modalShow, setModalShow] = useState(false);
 
 	return (
 		<StyledDetail>
@@ -96,9 +52,14 @@ function Detail(props) {
 									<p>{moment(detail.ngayKhoiChieu).format("MMMM Do YYYY")}</p>
 								</div>
 							</div>
-							<button type="button" onClick={handleOpen} className="btn">
+							<button type="button" onClick={() => setModalShow(true)} className="btn">
 								Trailer
 							</button>
+							<Modal size="lg" centered show={modalShow} onHide={() => setModalShow(false)}>
+								<Modal.Body>
+									<ReactPlayer url={detail.trailer} controls width="100%" />
+								</Modal.Body>
+							</Modal>
 						</div>
 					</div>
 				</div>
@@ -162,9 +123,6 @@ function Detail(props) {
 					</Tabs>
 				</div>
 			</StyledDetailShowtimes>
-			<Modal open={open} onClose={handleClose} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
-				{body}
-			</Modal>
 		</StyledDetail>
 	);
 }
