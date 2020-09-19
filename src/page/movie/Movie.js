@@ -1,32 +1,75 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import { StyledGrid, StyledGridContent, StyledGridMovieItem, StyledLoadMoreBtn } from "../../styles/StyledGrid";
+import { useSelector, useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { getMovieListPageMovieAction } from "../../redux/actions/movieAction";
+import NoImg from "../../component/images/no_image.jpg";
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1,
-	},
-	paper: {
-		padding: theme.spacing(2),
-		textAlign: "center",
-		color: theme.palette.text.secondary,
-	},
-}));
+function Movie() {
+	const dispatch = useDispatch();
+	const dsPhim = useSelector((state) => state.movieReducer.pageMovieList);
 
-export default function Movie() {
-	const classes = useStyles();
+	React.useEffect(() => {
+		dispatch(getMovieListPageMovieAction("GP01"));
+	}, []);
 
+	// const checkImageExists = (imageUrl, callBack) => {
+	// 	var imageData = new Image();
+	// 	imageData.onload = function () {
+	// 		callBack(true);
+	// 	};
+	// 	imageData.onerror = function () {
+	// 		callBack(false);
+	// 	};
+	// 	imageData.src = imageUrl;
+	// };
+
+	// // image url that want to check
+	var imageFile = "http://movie0706.cybersoft.edu.vn/hinhanh/13-reasons-why_gp01.jpg";
+	// checkImageExists(imageFile, function (existsImage) {
+	// 	if (existsImage == true) {
+	// 		// image exist
+	// 		console.log("1");
+	// 		return true;
+	// 	} else {
+	// 		// image not exist
+	// 		console.log("2");
+	// 		return false;
+	// 	}
+	// });
+
+	function imageExists(image_url) {
+		var http = new XMLHttpRequest();
+
+		http.open("HEAD", image_url, false);
+		http.send();
+
+		return http.status;
+	}
 	return (
-		<div className={classes.root}>
-			<Grid container spacing={3}>
-				<Grid item xs={12} sm={6}>
-					<Paper className={classes.paper}>xs=12 sm=6</Paper>
-				</Grid>
-				<Grid item xs={12} sm={6}>
-					<Paper className={classes.paper}>xs=12 sm=6</Paper>
-				</Grid>
-			</Grid>
-		</div>
+		<>
+			<StyledGrid>
+				<h1>Danh sách phim</h1>
+				<StyledGridContent>
+					{dsPhim.map((movie, index) => (
+						<StyledGridMovieItem key={`${index}${movie.tenPhim}`}>
+							<NavLink to={`/detail/${movie.maPhim}`}>
+								{true ? (
+									<img className="clickable" src={movie.hinhAnh} alt="mvthumb" />
+								) : (
+									<img className="clickable" src={NoImg} alt="mvthumb" />
+								)}
+								<h3>{movie.tenPhim}</h3>
+							</NavLink>
+						</StyledGridMovieItem>
+					))}
+				</StyledGridContent>
+			</StyledGrid>
+			<StyledLoadMoreBtn type="button" onClick="">
+				Thêm phim
+			</StyledLoadMoreBtn>
+		</>
 	);
 }
+
+export default Movie;

@@ -1,14 +1,15 @@
 import React from "react";
 import { StyledGridHeader, StyledLogoHeader, StyledLinkHeader } from "../../styles/StyledHeader";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect, Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 import logoCybersoft from "../images/logocybersoft.png";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { dangXuatAction } from "../../redux/actions/userAction";
 
 function Header() {
 	const nguoiDung = useSelector((state) => state.userReducer.nguoiDung);
+	let dispatch = useDispatch();
 
 	const menu = (
 		<Menu>
@@ -16,7 +17,12 @@ function Header() {
 				<NavLink to="/profile">Profile</NavLink>
 			</Menu.Item>
 			<Menu.Item>
-				<NavLink to="/login">Logout</NavLink>
+				<NavLink to="/admin">Admin</NavLink>
+			</Menu.Item>
+			<Menu.Item>
+				<a href="/" onClick={() => dispatch(dangXuatAction())}>
+					Logout
+				</a>
 			</Menu.Item>
 		</Menu>
 	);
@@ -43,10 +49,10 @@ function Header() {
 					<NavLink to="/movies" className="linkItem">
 						MOVIES
 					</NavLink>
-					{nguoiDung.taiKhoan ? (
+					{nguoiDung?.taiKhoan ? (
 						<Dropdown overlay={menu}>
 							<a className="ant-dropdown-link" onClick={(e) => e.preventDefault()} style={{ color: "#e3ff00" }}>
-								Hello! {nguoiDung.taiKhoan}
+								Hello! {nguoiDung?.taiKhoan}
 							</a>
 						</Dropdown>
 					) : (
@@ -56,7 +62,9 @@ function Header() {
 					)}
 				</StyledLinkHeader>
 				<div className="logoCybersoft">
-					<img src={logoCybersoft} alt="cybersoft" />
+					<a href="https://cybersoft.edu.vn/" target="_blank">
+						<img src={logoCybersoft} alt="cybersoft" />
+					</a>
 				</div>
 			</StyledGridHeader>
 		</div>

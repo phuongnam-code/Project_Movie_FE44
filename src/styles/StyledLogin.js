@@ -11,7 +11,7 @@ export const StyledLoginContainer = styled.div`
 		transform: translate(-50%, -50%);
 		position: absolute;
 		width: 30%;
-		height: 65vh;
+		height: 70vh;
 
 		margin: auto;
 		border: 1px solid #ccc;
@@ -40,6 +40,8 @@ export const StyledLoginContainer = styled.div`
 				width: 100%;
 				border: none;
 				border-radius: 5px;
+				color: blue;
+				padding: 5px 10px;
 			}
 			input:focus {
 				outline: none;

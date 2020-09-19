@@ -1,8 +1,16 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Route } from "react-router-dom";
+import Content from "./ContentAdmin";
+import Header from "./HeaderAdmin";
+import { StyleAdminPage } from "../../styles/StyledAdmintemplate";
 
 const AdminComponent = (props) => {
-	return <Fragment></Fragment>;
+	return (
+		<StyleAdminPage>
+			<Header />
+			<Content />
+		</StyleAdminPage>
+	);
 };
 
 export const AdminTemplate = ({ Component, ...rest }) => {

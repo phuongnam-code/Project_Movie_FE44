@@ -1,7 +1,16 @@
-import { get_movie_list, search_movie, get_system_cinema, get_cinema_cluster, get_detail_movie, get_info_booking_ticket } from "../types/movieType";
+import {
+	get_movie_list,
+	search_movie,
+	get_system_cinema,
+	get_cinema_cluster,
+	get_detail_movie,
+	get_info_booking_ticket,
+	get_page_movie_list,
+} from "../types/movieType";
 
 const initialState = {
 	movieList: [],
+	pageMovieList: [],
 	systemCinema: [],
 	listCinemaCluster: [],
 	detailMovie: {},
@@ -13,6 +22,10 @@ const movieReducer = (state = initialState, action) => {
 		// lấy danh sách phim
 		case get_movie_list: {
 			state.movieList = action.dsPhim;
+			return { ...state };
+		}
+		case get_page_movie_list: {
+			state.pageMovieList = action.dsPhim;
 			return { ...state };
 		}
 		//search phim theo tên

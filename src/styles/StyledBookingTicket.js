@@ -102,6 +102,7 @@ export const StyledBookingTicketContainer = styled.div`
 			}
 			.colorXuatChieu {
 				color: blue;
+				font-weight: 600;
 			}
 		}
 		.email,

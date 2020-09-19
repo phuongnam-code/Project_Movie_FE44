@@ -4,9 +4,13 @@ import { getInfoBookingTicketAction, getSystemCinemaAction } from "../../redux/a
 import { StyledBookingTicketContainer } from "../../styles/StyledBookingTicket";
 import screen from "../../component/images/screen.png";
 import WeekendIcon from "@material-ui/icons/Weekend";
+import CountDownTimer from "./CountDownTimer";
+import Axios from "axios";
+import { userLogin } from "../../config/setting";
 
 function BookingTicket(props) {
 	let [dsGheDangDat, setDsGheDangDat] = useState([]);
+
 	const infoBookingTicket = useSelector((state) => state.movieReducer.info_bookingticket);
 	const listSystemCinema = useSelector((state) => state.movieReducer.systemCinema);
 	const dispatch = useDispatch();
@@ -25,6 +29,7 @@ function BookingTicket(props) {
 			logo: logo,
 		});
 	});
+
 	let tenRap = infoBookingTicket.thongTinPhim?.tenCumRap.slice(0, 1);
 	let index = dsRap.findIndex((item) => item.ten === tenRap);
 	let logo = dsRap[index]?.logo;
@@ -42,30 +47,31 @@ function BookingTicket(props) {
 	};
 
 	const datVe = () => {
-		// 	let usLogin = {};
-		// 	if (localStorage.getItem(userLogin)) {
-		// 		usLogin = JSON.parse(localStorage.getItem(userLogin));
-		// 	}
-		// 	let obDatVe = {
-		// 		maLichChieu: props.match.params.maLichChieu,
-		// 		danhSachVe: danhSachGheDangDat,
-		// 		taiKhoanNguoiDung: usLogin.taiKhoan,
-		// 	};
-		// 	console.log(obDatVe);
-		// 	Axios({
-		// 		url: `${domain}/api/QuanLyDatVe/DatVe`,
-		// 		method: "post",
-		// 		data: obDatVe,
-		// 		headers: {
-		// 			Authorization: `Bearer ${usLogin.accessToken}`,
-		// 		},
+		// let usLogin = {};
+		// if (localStorage.getItem(userLogin)) {
+		// 	usLogin = JSON.parse(localStorage.getItem(userLogin));
+		// }
+		// console.log(usLogin);
+		// let obDatVe = {
+		// 	maLichChieu: props.match.params.maLichChieu,
+		// 	danhSachVe: dsGheDangDat,
+		// 	taiKhoanNguoiDung: usLogin.taiKhoan,
+		// };
+		// console.log(obDatVe);
+		// Axios({
+		// 	url: `http://movie0706.cybersoft.edu.vn/api/QuanLyDatVe/DatVe`,
+		// 	method: "post",
+		// 	data: obDatVe,
+		// 	headers: {
+		// 		Authorization: `Bearer ${usLogin.accessToken}`,
+		// 	},
+		// })
+		// 	.then((res) => {
+		// 		console.log(res.data);
 		// 	})
-		// 		.then((res) => {
-		// 			console.log(res.data);
-		// 		})
-		// 		.catch((err) => {
-		// 			console.log(err.response.data);
-		// 		});
+		// 	.catch((err) => {
+		// 		console.log(err.response.data);
+		// 	});
 	};
 
 	return (
@@ -81,7 +87,9 @@ function BookingTicket(props) {
 					</div>
 					<div className="chairHoldTime">
 						<small>Thời gian giữ ghế</small>
-						<h1>05:00</h1>
+						<h1>
+							<CountDownTimer seconds={300} />
+						</h1>
 					</div>
 				</div>
 				<div className="divChair">
@@ -162,8 +170,10 @@ function BookingTicket(props) {
 					<input type="text" placeholder="Số điện thoại" />
 				</div>
 				<div className="rightCheckout maGiamGia">
-					<input type="text" placeholder="Mã giảm giá" />
-					<button className="btnGiamGia">Apply</button>
+					<input type="text" placeholder="Mã giảm giá" disabled />
+					<button className="btnGiamGia" disabled>
+						Apply
+					</button>
 				</div>
 				<div className="datVe">
 					<button className="btnDatVe" onClick={() => datVe()}>

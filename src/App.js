@@ -25,7 +25,7 @@ function App() {
 				<HomeTemplate exact path="/profile" Component={Profile} />
 				<HomeTemplate exact path="/detail/:maPhim" Component={Detail} />
 				<HomeTemplate exact path="/bookingticket/:maLichChieu" Component={BookingTicket} />
-				<AdminTemplate />
+				<AdminTemplate exact path="/admin" Component={Home} />
 			</div>
 		</BrowserRouter>
 	);

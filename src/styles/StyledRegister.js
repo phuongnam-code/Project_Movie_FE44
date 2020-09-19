@@ -38,7 +38,7 @@ export const StyledRegisterContainer = styled.div`
 			}
 		}
 		.divUserregister {
-			margin-bottom: 20px;
+			// margin-bottom: 20px;
 			padding: 0 10px;
 			span {
 				color: #bf1650;
@@ -79,15 +79,14 @@ export const StyledRegisterContainer = styled.div`
 					border: none;
 				}
 			}
-			.swapLoign {
-				small {
-					margin-left: 20px;
-				}
+			.maLoaiNguoiDung {
+				display: inline;
+				margin-right: 5px;
 			}
 		}
 
 		.btnDangKy {
-			margin-top: 30px;
+			margin-top: 20px;
 			text-align: center;
 
 			button {

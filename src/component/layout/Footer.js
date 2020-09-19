@@ -27,7 +27,7 @@ function Footer() {
 					</div>
 				</div>
 				<div>
-					<h3>APIs and Instructor</h3>
+					<h3>APIs & Instructor</h3>
 					<p>
 						<a href="https://cybersoft.edu.vn/">cybersoft.edu.vn</a>
 					</p>

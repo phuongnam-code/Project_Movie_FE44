@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyledRegisterContainer } from "../../styles/StyledRegister";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import userImg from "../../component/images/user.png";
 import { Row, Col } from "antd";
 import { useForm } from "react-hook-form";
@@ -9,25 +9,18 @@ import { dangKyAction } from "../../redux/actions/userAction";
 
 function Register() {
 	const { register, handleSubmit, errors } = useForm();
-	// const [user, setUser] = useState({
-	// 	hoTen: "",
-	// 	taiKhoan: "",
-	// 	matKhau: "",
-	// 	email: "",
-	// 	soDt: "",
-	// 	maLoaiNguoiDung: "",
-	// });
+	const message = useSelector((state) => state.alertReducer.message);
 	const dispatch = useDispatch();
 
 	const onSubmit = (data) => {
-		console.log(data);
-		// setUser({
-		// 	data,
-		// });
-
-		// call api
 		dispatch(dangKyAction(data));
 	};
+
+	if (message === "Đăng kí thành công!") {
+		alert("Đăng kí thành công!");
+		return <Redirect to="/login" />;
+	}
+
 	return (
 		<StyledRegisterContainer>
 			<div className="registerContent">
@@ -79,6 +72,9 @@ function Register() {
 										},
 									})}
 								/>
+								<NavLink to="/login" className="swapLoign">
+									<small>Do you already have an account ?</small>
+								</NavLink>
 							</div>
 						</Col>
 						<Col span={12}>
@@ -99,7 +95,21 @@ function Register() {
 								<label htmlFor="soDt">Phone:{errors.email && <span>Phone is required</span>}</label>
 								<input type="number" name="soDt" ref={register({ required: true })} />
 
-								<label htmlFor="maLoaiNguoiDung">Type:</label>
+								<label htmlFor="maNhom">Mã nhóm: {errors.maNhom && <span>{errors.maNhom.message}</span>}</label>
+								<input
+									type="text"
+									name="maNhom"
+									ref={register({
+										required: "Fullname is required",
+										maxLength: {
+											value: 5,
+											message: "Max length is 5",
+										},
+									})}
+								/>
+								<label htmlFor="maLoaiNguoiDung" className="maLoaiNguoiDung">
+									Type:
+								</label>
 								<select name="maLoaiNguoiDung" className="slType" ref={register({ required: true })}>
 									<option value="KhachHang">customer</option>
 									<option value="QuanTri">admin</option>
@@ -107,9 +117,7 @@ function Register() {
 							</div>
 						</Col>
 					</Row>
-					<NavLink to="/login" className="swapLoign">
-						<small>Do you already have an account ?</small>
-					</NavLink>
+					<div style={{ color: "red" }}>{message}</div>
 					<div className="btnDangKy">
 						<button type="submit">Sign Up</button>
 					</div>
