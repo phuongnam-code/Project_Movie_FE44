@@ -29,4 +29,17 @@ export const StyledGlobal = createGlobalStyle`
     p{
         margin: 0;
     }
+    ::-webkit-scrollbar{
+        width:10px;
+    }
+    ::-webkit-scrollbar-track{
+        background:#02a388;
+    }
+    ::-webkit-scrollbar-thumb{
+       background-image:linear-gradient(red, yellow);
+       border-radius:25px;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background-image:linear-gradient(#ee0970, #ff6a00);
+     }
 `;

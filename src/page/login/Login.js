@@ -15,7 +15,7 @@ function Login() {
 	const isLogin = useSelector((state) => state.userReducer.isLogin);
 
 	if (isLogin) {
-		return <Redirect to="/profile" />;
+		return <Redirect to="/" />;
 	}
 
 	const onSubmit = (data) => {

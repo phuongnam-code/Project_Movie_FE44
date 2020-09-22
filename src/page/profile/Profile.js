@@ -1,22 +1,80 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledProfile } from "../../styles/StyledProfile";
 import profile from "../../component/images/profile.jpg";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { useDispatch, useSelector } from "react-redux";
-import { profileAction } from "../../redux/actions/userAction";
-import { Row, Col } from "antd";
-import NoImg from "../../component/images/no_image.jpg";
+import { userChangeProfileAction, userProfileAction } from "../../redux/actions/userAction";
+import { Button, Col, Row, Select, Table } from "antd";
+import { EditOutlined } from "@ant-design/icons";
+import moment from "moment";
+import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
+
+const { Option } = Select;
 
 function Profile() {
-	let user = useSelector((state) => state.userReducer.nguoiDung);
+	const { register, handleSubmit, errors } = useForm();
 	let dispatch = useDispatch();
+	const [stateDrawer, setStateDrawer] = useState({ visible: false });
 
 	useEffect(() => {
-		dispatch(profileAction());
+		dispatch(userProfileAction());
 	}, []);
 
-	let userprofile = useSelector((state) => state.userReducer.userProfile);
+	let userProfile = useSelector((state) => state.userReducer.userProfile);
+
+	const show = () => {
+		setStateDrawer({
+			visible: true,
+		});
+	};
+	const onClose = () => {
+		setStateDrawer({
+			visible: false,
+		});
+	};
+
+	const columns = [
+		{
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Tên phim</p>,
+			dataIndex: "tenPhim",
+			key: "tenPhim",
+		},
+		{
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Mã vé</p>,
+			dataIndex: "maVe",
+			key: "maVe",
+		},
+		{
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Ngày đặt</p>,
+			dataIndex: "ngayDat",
+			key: "ngayDat",
+		},
+		{
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Giá vé</p>,
+			key: "giaVe",
+			dataIndex: "giaVe",
+		},
+		{
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Tên rạp</p>,
+			key: "tenRap ",
+			dataIndex: "tenRap",
+		},
+		{
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Rạp</p>,
+			key: "rap_ghe ",
+			dataIndex: "rap_ghe",
+		},
+	];
+	const data = [];
+
+	const onSubmit = (data) => {
+		dispatch(userChangeProfileAction(data));
+	};
+
+	const [divForm, setDivForm] = useState(false);
+	let message = useSelector((state) => state.alertReducer.message);
 
 	return (
 		<StyledProfile>
@@ -35,47 +93,66 @@ function Profile() {
 					</TabList>
 					<TabPanel>
 						<Row>
-							<Col span={6} className="colLeftProfile">
+							<Col span={8} className="colLeftProfile">
 								<p className="profileTitle">Họ tên:</p>
 								<p className="profileTitle">Email:</p>
 								<p className="profileTitle">Tài khoản:</p>
 								<p className="profileTitle">Mật khẩu:</p>
 								<p className="profileTitle">Số điện thoại:</p>
 								<p className="profileTitle">Mã nhóm:</p>
-								<p className="profileTitle">Mã loại người dùng:</p>
+								<p className="profileTitle">Loại người dùng:</p>
 							</Col>
-							<Col span={18} className="colRightProfile">
-								<p>...</p>
-								<p>...</p>
-								<p>...</p>
-								<p>...</p>
-								<p>...</p>
-								<p>...</p>
-								<p>...</p>
-								<button>Cập nhật</button>
+							<Col span={12} className="colRightProfile">
+								{divForm ? (
+									<div className="formEdit">
+										<form onSubmit={handleSubmit(onSubmit)}>
+											<input type="text" ref={register({ required: true })} name="hoTen" placeholder="hoten" />
+											<input type="text" ref={register({ required: true })} name="email" placeholder="email" />
+											<input type="text" ref={register({ required: true })} value={userProfile.taiKhoan} name="taiKhoan" />
+											<input type="text" ref={register({ required: true })} name="matKhau" placeholder="matkhau" />
+											<input type="text" ref={register({ required: true })} name="soDt" placeholder="sodt" />
+											<input type="text" ref={register({ required: true })} value={userProfile.maNhom} name="maNhom" />
+											<input type="text" ref={register({ required: true })} value="KhachHang" name="maLoaiNguoiDung" />
+											<button type="submit">Submit</button>
+										</form>
+									</div>
+								) : (
+									<div>
+										<p>{userProfile.hoTen}</p>
+										<p>{userProfile.email}</p>
+										<p>{userProfile.taiKhoan}</p>
+										<p>{userProfile.matKhau}</p>
+										<p>{userProfile.soDT}</p>
+										<p>{userProfile.maNhom}</p>
+										<p>{userProfile.loaiNguoiDung}</p>
+									</div>
+								)}
+							</Col>
+							<Col span={4}>
+								<Button type="primary" onClick={() => setDivForm(!divForm)}>
+									<EditOutlined /> Chỉnh sửa
+								</Button>
 							</Col>
 						</Row>
 					</TabPanel>
 					<TabPanel>
-						<Row className="rowHistory">
-							<Col span={4} className="colLeftHistory">
-								<img src={NoImg} alt="altHistory" />
-							</Col>
-							<Col span={20} className="colRightHistory">
-								<div>
-									<span className="titleHistory">Rạp:</span>
-									<span>...</span>
-								</div>
-								<div>
-									<span className="titleHistory">Địa chỉ:</span>
-									<span>...</span>
-								</div>
-								<div>
-									<span className="titleHistory">Chi tiết:</span>
-									<span>...</span>
-								</div>
-							</Col>
-						</Row>
+						{userProfile.thongTinDatVe?.map((item) => {
+							let ghe, rap, tenRap;
+							item.danhSachGhe.map((item) => {
+								tenRap = item.tenHeThongRap;
+								rap = item.tenRap;
+								ghe = item.tenGhe;
+							});
+							data.push({
+								tenPhim: item.tenPhim,
+								maVe: item.maVe,
+								ngayDat: moment(item.ngayDat).format("MMM Do YY"),
+								giaVe: item.giaVe,
+								tenRap: tenRap,
+								rap_ghe: `${rap} - Ghế: ${ghe}`,
+							});
+						})}
+						<Table columns={columns} dataSource={data} />
 					</TabPanel>
 				</Tabs>
 			</div>

@@ -51,10 +51,24 @@ export const StyledProfile = styled.div`
 					border-radius: 5px;
 				}
 			}
-			.colRightHistory {
+			.colRightProfile {
 				span.titleHistory {
 					width: 100px;
 					display: inline-block;
+				}
+			}
+		}
+		.colRightProfile {
+			.formEdit {
+				input {
+					display: block;
+					margin-bottom: 7px;
+					border: none;
+					outline: none;
+					border-radius: 5px;
+				}
+				button {
+					border-radius: 5px;
 				}
 			}
 		}

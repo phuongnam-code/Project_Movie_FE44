@@ -1,4 +1,4 @@
-import { dang_nhap, dang_xuat, dang_ky, profile_user } from "../types/userType";
+import { dang_nhap, dang_xuat, dang_ky, profile_user, edit_profile_user } from "../types/userType";
 import { userLogin } from "../../config/setting";
 
 let user_login = {};
@@ -29,6 +29,7 @@ const userReducer = (state = initialState, action) => {
 			state.userProfile = action.user;
 			return { ...state };
 		}
+
 		default:
 			return state;
 	}

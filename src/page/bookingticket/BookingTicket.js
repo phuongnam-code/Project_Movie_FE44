@@ -5,15 +5,17 @@ import { StyledBookingTicketContainer } from "../../styles/StyledBookingTicket";
 import screen from "../../component/images/screen.png";
 import WeekendIcon from "@material-ui/icons/Weekend";
 import CountDownTimer from "./CountDownTimer";
-import Axios from "axios";
-import { userLogin } from "../../config/setting";
+import { userDatVeAction } from "../../redux/actions/userAction";
+import { Redirect } from "react-router-dom";
 
 function BookingTicket(props) {
 	let [dsGheDangDat, setDsGheDangDat] = useState([]);
+	const dispatch = useDispatch();
 
 	const infoBookingTicket = useSelector((state) => state.movieReducer.info_bookingticket);
 	const listSystemCinema = useSelector((state) => state.movieReducer.systemCinema);
-	const dispatch = useDispatch();
+	const nguoiDung = useSelector((state) => state.userReducer.nguoiDung);
+	const message = useSelector((state) => state.alertReducer.message);
 
 	useEffect(() => {
 		dispatch(getSystemCinemaAction());
@@ -34,6 +36,11 @@ function BookingTicket(props) {
 	let index = dsRap.findIndex((item) => item.ten === tenRap);
 	let logo = dsRap[index]?.logo;
 
+	if (!nguoiDung.taiKhoan) {
+		alert("Bạn chưa đăng nhập");
+		return <Redirect to="/login" />;
+	}
+
 	const datGhe = (ghe) => {
 		let indexGhe = dsGheDangDat.findIndex((gheDD) => gheDD.stt === ghe.stt);
 		//Kiểm tra ghế được click có trong mảng thì remove ra, chưa có thì push vào
@@ -47,32 +54,22 @@ function BookingTicket(props) {
 	};
 
 	const datVe = () => {
-		// let usLogin = {};
-		// if (localStorage.getItem(userLogin)) {
-		// 	usLogin = JSON.parse(localStorage.getItem(userLogin));
-		// }
-		// console.log(usLogin);
-		// let obDatVe = {
-		// 	maLichChieu: props.match.params.maLichChieu,
-		// 	danhSachVe: dsGheDangDat,
-		// 	taiKhoanNguoiDung: usLogin.taiKhoan,
-		// };
-		// console.log(obDatVe);
-		// Axios({
-		// 	url: `http://movie0706.cybersoft.edu.vn/api/QuanLyDatVe/DatVe`,
-		// 	method: "post",
-		// 	data: obDatVe,
-		// 	headers: {
-		// 		Authorization: `Bearer ${usLogin.accessToken}`,
-		// 	},
-		// })
-		// 	.then((res) => {
-		// 		console.log(res.data);
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err.response.data);
-		// 	});
+		let objDatVe = {
+			maLichChieu: props.match.params.maLichChieu,
+			danhSachVe: dsGheDangDat,
+			taiKhoanNguoiDung: nguoiDung.taiKhoan,
+		};
+		if (dsGheDangDat.length !== 0) {
+			console.log(dsGheDangDat);
+			dispatch(userDatVeAction(objDatVe));
+		} else {
+			alert("Bạn chưa chọn ghế??");
+		}
 	};
+
+	if (message === "Đặt vé thành công!") {
+		alert("Đặt vé thành công!");
+	}
 
 	return (
 		<StyledBookingTicketContainer>
@@ -147,7 +144,14 @@ function BookingTicket(props) {
 			</div>
 			<div className="pay">
 				<div className="giaTien rightCheckout">
-					<h1>0 đ</h1>
+					<h1>
+						{dsGheDangDat
+							.reduce((tongTien, ghe) => {
+								return (tongTien += ghe.giaVe);
+							}, 0)
+							.toLocaleString()}{" "}
+						đ
+					</h1>
 				</div>
 				<div className="thongTinPhim rightCheckout">
 					<h3>
@@ -161,7 +165,12 @@ function BookingTicket(props) {
 					</p>
 				</div>
 				<div className="rightCheckout">
-					<p>Ghế: </p>
+					<p>
+						Ghế:{" "}
+						{dsGheDangDat.map((ghe) => (
+							<span style={{ marginRight: "5px" }}>{ghe.stt}</span>
+						))}
+					</p>
 				</div>
 				<div className="rightCheckout email">
 					<input type="text" placeholder="Email" />
@@ -176,7 +185,7 @@ function BookingTicket(props) {
 					</button>
 				</div>
 				<div className="datVe">
-					<button className="btnDatVe" onClick={() => datVe()}>
+					<button className="btnDatVe" type="submit" onClick={() => datVe()}>
 						Đặt vé
 					</button>
 				</div>
