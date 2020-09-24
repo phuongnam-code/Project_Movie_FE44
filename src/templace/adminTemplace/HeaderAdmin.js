@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import logo from "../../component/images/logo.svg";
 import avatar from "../../component/images/user.png";
 import { Menu, Dropdown } from "antd";
+import { useSelector } from "react-redux";
 
 const menu = (
 	<Menu>
@@ -17,6 +18,7 @@ const menu = (
 );
 
 function Header() {
+	const nguoiDung = useSelector((state) => state.userReducer.nguoiDung);
 	return (
 		<div className="headerAdmin">
 			<StyledLogoHeader className="headerAdmin_left">
@@ -34,7 +36,7 @@ function Header() {
 			<div className="headerAdmin_right">
 				<Dropdown overlay={menu}>
 					<a className="ant-dropdown-link" onClick={(e) => e.preventDefault()} style={{ color: "#e3ff00" }}>
-						Hello! <img src={avatar} alt="avatar" />
+						Hello! {nguoiDung?.taiKhoan} <img src={avatar} alt="avatar" />
 					</a>
 				</Dropdown>
 			</div>

@@ -39,7 +39,8 @@ export const PROFILE_CHANGE_URL = `${domain}/api/QuanLyNguoiDung/CapNhatThongTin
 export const ADD_USER_URL = `${domain}/api/QuanLyNguoiDung/ThemNguoiDung`;
 export const DEL_USER_URL = `${domain}/api/QuanLyNguoiDung/XoaNguoiDung`;
 export const EDIT_USER_URL = `${domain}/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung`;
-export const SEARCH_USER_URL = `${domain}/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=${groupID}&tuKhoa=`;
+export const SEARCH_USER_URL = `${domain}/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=gp01&tuKhoa=`;
+export const GET_USER_LIST_URL = `${domain}/api/QuanLyNguoiDung/LayDanhSachNguoiDung`;
 
 //API (11) Thêm, xóa, sửa phim
 export const ADD_MOVIE_URL = `${domain}/api/QuanLyPhim/ThemPhim`;

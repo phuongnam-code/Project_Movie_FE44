@@ -1,7 +1,15 @@
 import React from "react";
 import { Table, Tag, Space } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { getMovieListAction } from "../../redux/actions/adminMovieAction";
 
 function TablePhim({ htLichChieu }) {
+	const dsPhim = useSelector((state) => state.adminReducer.dsPhim);
+	const dispatch = useDispatch();
+	React.useEffect(() => {
+		dispatch(getMovieListAction());
+	}, []);
+
 	const columnsMovie = [
 		{
 			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Mã phim</p>,
@@ -20,8 +28,8 @@ function TablePhim({ htLichChieu }) {
 		},
 		{
 			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Ngày khởi chiếu</p>,
-			dataIndex: "maNhom",
-			key: "maNhom",
+			dataIndex: "ngayKhoiChieu",
+			key: "ngayKhoiChieu",
 		},
 		{
 			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Hình ảnh</p>,
@@ -46,29 +54,8 @@ function TablePhim({ htLichChieu }) {
 			),
 		},
 	];
-	const dataMovie = [
-		{
-			maPhim: "001",
-			tenPhim: "Iron man",
-			maNhom: "GP01",
-			ngayKhoiChieu: "12/09/2020",
-			hinhAnh: "alt1",
-		},
-		{
-			maPhim: "002",
-			tenPhim: "Kẻ cắp mặt trăng 2",
-			maNhom: "GP01",
-			ngayKhoiChieu: "12/09/2020",
-			hinhAnh: "alt2",
-		},
-		{
-			maPhim: "003",
-			tenPhim: "The Pacific",
-			maNhom: "GP01",
-			ngayKhoiChieu: "12/09/2020",
-			hinhAnh: "alt3",
-		},
-	];
+	const dataMovie = dsPhim;
+
 	return <Table columns={columnsMovie} dataSource={dataMovie} style={{ textAlign: "center" }} />;
 }
 

@@ -1,84 +1,177 @@
-import React from "react";
-import { Drawer, Form, Button, Col, Row, Input, Select } from "antd";
+import React, { useEffect } from "react";
+import { Drawer, Col, Row } from "antd";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { styleLabel, styleInput, styleSelect, styleButton, styleForm, styleSpan } from "../../styles/StyledDrawer";
+import { addUserAction, editUserAction } from "../../redux/actions/adminUserAction";
 
-const { Option } = Select;
+function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
+	const { register, handleSubmit, errors } = useForm();
+	const dispatch = useDispatch();
+	const message = useSelector((state) => state.alertReducer.message);
+	let editUser = useSelector((state) => state.adminReducer.editUser);
 
-function DrawerNguoiDung({ onClose, stateDrawer, titleDraw }) {
+	const onSubmit = (data) => {
+		console.log(isEdit);
+		// onClose();
+		if (isEdit) {
+			console.log("s");
+			dispatch(editUserAction(data));
+			return;
+		}
+		dispatch(addUserAction(data));
+	};
+
 	return (
 		<>
 			<Drawer
-				title={titleDraw("THÊM NGƯỜI DÙNG")}
+				title={
+					isEdit ? (
+						<div style={{ fontSize: "26px", fontWeight: "600", textAlign: "center" }}>
+							<p>SỬA NGƯỜI DÙNG</p>
+						</div>
+					) : (
+						<div style={{ fontSize: "26px", fontWeight: "600", textAlign: "center" }}>
+							<p>THÊM NGƯỜI DÙNG</p>
+						</div>
+					)
+				}
 				width={720}
 				onClose={onClose}
 				visible={stateDrawer}
-				bodyStyle={{ paddingBottom: 80 }}
-				footer={
-					<div
-						style={{
-							textAlign: "right",
-						}}
-					>
-						<Button onClick={onClose} style={{ marginRight: 8, borderColor: "red", color: "red" }}>
-							Cancel
-						</Button>
-						<Button onClick={onClose} type="primary">
-							Submit
-						</Button>
-					</div>
-				}
+				bodyStyle={{ padding: 0 }}
 			>
-				<Form layout="vertical" hideRequiredMark>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item name="taiKhoan" label="Tài khoản" rules={[{ required: true, message: "Please enter taiKhoan" }]}>
-								<Input type="text" placeholder="Nhập vào tài khoản" />
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item name="matKhau" label="Mật khẩu" rules={[{ required: true, message: "Please enter matKhau" }]}>
-								<Input type="text" placeholder="Nhập vào mật khẩu" />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item name="email" label="Email" rules={[{ required: true, message: "Please enter email" }]}>
-								<Input type="text" placeholder="Nhập vào email" />
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item name="soDt" label="Số điện thoại" rules={[{ required: true, message: "Please enter soDt" }]}>
-								<Input type="number" placeholder="Nhập vào số điện thoại" />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item name="hoTen" label="Họ và tên" rules={[{ required: true, message: "Please enter hoTen" }]}>
-								<Input type="text" placeholder="Nhập vào họ và tên" />
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item name="maNhom" label="Mã nhóm" rules={[{ required: true, message: "Please enter maNhom" }]}>
-								<Input type="text" placeholder="Nhập vào mã nhóm" />
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="maLoaiNguoiDung"
-								label="Mã loại người dùng"
-								rules={[{ required: true, message: "Please choose the maLoaiNguoiDung" }]}
-							>
-								<Select placeholder="Chọn mã loại người dùng">
-									<Option value="jack">Khách hàng</Option>
-									<Option value="tom">Quản trị</Option>
-								</Select>
-							</Form.Item>
-						</Col>
-					</Row>
-				</Form>
+				<form layout="vertical" hideRequiredMark onSubmit={handleSubmit(onSubmit)} style={styleForm}>
+					<div>
+						<Row gutter={16}>
+							<Col span={12}>
+								<label style={styleLabel}>
+									Tài khoản {errors.taiKhoan && <span style={{ color: "red" }}>{errors.taiKhoan.message}</span>}
+								</label>
+								<input
+									style={styleInput}
+									type="text"
+									placeholder="Nhập vào tài khoản"
+									ref={register({
+										required: "taiKhoan is required",
+									})}
+									name="taiKhoan"
+									value={editUser.taiKhoan}
+								/>
+							</Col>
+							<Col span={12}>
+								<label style={styleLabel}>
+									Mật khẩu {errors.matKhau && <span style={{ color: "red" }}>{errors.matKhau.message}</span>}
+								</label>
+								<input
+									style={styleInput}
+									type="text"
+									placeholder="Nhập vào mật khẩu"
+									ref={register({
+										required: "password is required",
+										minLength: {
+											value: 6,
+											message: "Min length is 6",
+										},
+									})}
+									name="matKhau"
+									value={editUser.matKhau}
+								/>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={12}>
+								<label style={styleLabel}>Email {errors.email && <span style={{ color: "red" }}>{errors.email.message}</span>}</label>
+								<input
+									style={styleInput}
+									type="text"
+									placeholder="Nhập vào email"
+									ref={register({
+										required: "email is required",
+										pattern: {
+											value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+											message: "Invalid email address format",
+										},
+									})}
+									name="email"
+									value={editUser.email}
+								/>
+							</Col>
+							<Col span={12}>
+								<label style={styleLabel}>
+									Số điện thoại {errors.soDt && <span style={{ color: "red" }}>{errors.soDt.message}</span>}
+								</label>
+								<input
+									style={styleInput}
+									type="number"
+									placeholder="Nhập vào số điện thoại"
+									ref={register({
+										required: "soDt is required",
+									})}
+									name="soDt"
+									value={editUser.soDt}
+								/>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={12}>
+								<label style={styleLabel}>
+									Họ tên {errors.hoTen && <span style={{ color: "red" }}>{errors.hoTen.message}</span>}
+								</label>
+								<input
+									style={styleInput}
+									type="text"
+									placeholder="Nhập vào họ và tên"
+									ref={register({
+										required: "hoTen is required",
+									})}
+									name="hoTen"
+									value={editUser.hoTen}
+								/>
+							</Col>
+							<Col span={12}>
+								<label style={styleLabel}>
+									Mã nhóm {errors.maNhom && <span style={{ color: "red" }}>{errors.maNhom.message}</span>}
+								</label>
+								<input
+									style={styleInput}
+									type="text"
+									placeholder="Nhập vào mã nhóm"
+									ref={register({
+										required: "maNhom is required",
+									})}
+									name="maNhom"
+									defaultValue="GP01"
+								/>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={12}>
+								<label style={styleLabel}>Mã loại người dùng</label>
+								<select
+									style={styleSelect}
+									placeholder="Chọn mã loại người dùng"
+									ref={register({
+										required: "maLoaiNguoiDung is required",
+									})}
+									defaultValue="KhachHang"
+									name="maLoaiNguoiDung"
+								>
+									<option value="KhachHang">Khách hàng</option>
+									<option value="QuanTri">Quản trị</option>
+								</select>
+							</Col>
+						</Row>
+						<div style={{ color: "red", padding: "20px", textAlign: "center", fontSize: "18px" }}> {message}</div>
+					</div>
+
+					<div style={{ textAlign: "right", padding: "10px 0" }}>
+						<span onClick={onClose} style={styleSpan}>
+							Cancel
+						</span>
+						{isEdit ? <button style={styleButton}>Edit</button> : <button style={styleButton}>Submit</button>}
+					</div>
+				</form>
 			</Drawer>
 		</>
 	);

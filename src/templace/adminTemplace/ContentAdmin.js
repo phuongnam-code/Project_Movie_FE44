@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import { Drawer, Form, Button, Col, Row, Input, Select, DatePicker, TimePicker, Table, Tag, Space } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import DrawerPhim from "./DrawerPhim";
 import DrawerNguoiDung from "./DrawerNguoiDung";
 import TableNguoiDung from "./TableNguoiDung";
 import TablePhim from "./TablePhim";
 import DrawerLichChieu from "./DrawerLichChieu";
+import { useDispatch } from "react-redux";
+import { findUserAction, getUserListAction } from "../../redux/actions/adminUserAction";
 
-const { Option } = Select;
-const titleDraw = (title) => (
+const titleDraw = (title = true) => (
 	<div style={{ fontSize: "26px", fontWeight: "600", textAlign: "center" }}>
 		<p>{title}</p>
 	</div>
@@ -19,8 +20,12 @@ const titleDraw = (title) => (
 function Content() {
 	const [stateDrawer, setStateDrawer] = useState(false);
 	const [drawerLichChieu, setDrawerLichChieu] = useState(false);
+	const [isEdit, setIsEdit] = useState(false);
+	const dispatch = useDispatch();
+	const [searchTerm, setSearchTerm] = useState("");
+	const timeOut = useRef(null);
 
-	const show = () => {
+	const showDrawer = () => {
 		setStateDrawer(true);
 	};
 	const htLichChieu = () => {
@@ -30,6 +35,19 @@ function Content() {
 	const onClose = () => {
 		setStateDrawer(false);
 		setDrawerLichChieu(false);
+	};
+
+	const handleChange = (event) => {
+		const { value } = event.target;
+
+		clearTimeout(timeOut.current);
+		setSearchTerm(value);
+		timeOut.current = setTimeout(() => {
+			if (value === "") {
+				dispatch(getUserListAction());
+			}
+			dispatch(findUserAction(value.trim()));
+		}, 500);
 	};
 
 	return (
@@ -42,15 +60,14 @@ function Content() {
 			<div className="contentAdmin_right">
 				<TabPanel>
 					<div className="addMovie">
-						<Button type="primary" onClick={show}>
+						<Button type="primary" onClick={showDrawer}>
 							<PlusOutlined /> Thêm phim
 						</Button>
-						<DrawerPhim onClose={onClose} stateDrawer={stateDrawer} titleDraw={titleDraw} />
+						<DrawerPhim onClose={onClose} stateDrawer={stateDrawer} titleDraw={titleDraw} isEdit={isEdit} />
 					</div>
 					<div className="searchMovie">
-						<Input.Group>
-							<Input.Search className="inputSearch" placeholder="Nhập vào tên phim hoặc mã phim" />
-						</Input.Group>
+						<input className="inputSearch" placeholder="Nhập vào tên phim hoặc mã phim" value={searchTerm} onChange={handleChange} />
+						<SearchOutlined className="iconSearch" />
 					</div>
 					<div className="tableMovie">
 						<TablePhim htLichChieu={htLichChieu} />
@@ -59,18 +76,30 @@ function Content() {
 				</TabPanel>
 				<TabPanel>
 					<div className="addUser">
-						<Button type="primary" onClick={show}>
+						<Button
+							type="primary"
+							onClick={() => {
+								showDrawer();
+								setIsEdit(false);
+							}}
+						>
 							<PlusOutlined /> Thêm người dùng
 						</Button>
-						<DrawerNguoiDung onClose={onClose} stateDrawer={stateDrawer} titleDraw={titleDraw} />
+						<DrawerNguoiDung onClose={onClose} stateDrawer={stateDrawer} isEdit={isEdit} />
 					</div>
 					<div className="searchUser">
-						<Input.Group>
-							<Input.Search className="inputSearch" placeholder="Nhập vào tên người dùng hoặc tài khoản" />
-						</Input.Group>
+						<input
+							className="inputSearch"
+							placeholder="Nhập vào tên người dùng hoặc tài khoản"
+							value={searchTerm}
+							onChange={handleChange}
+						/>
+						<SearchOutlined className="iconSearch" />
 					</div>
 					<div className="tableUser">
-						<TableNguoiDung />
+						<TableNguoiDung onClose={onClose} stateDrawer={stateDrawer} showDrawer={showDrawer} setIsEdit={setIsEdit}>
+							<DrawerNguoiDung onClose={onClose} stateDrawer={stateDrawer} />
+						</TableNguoiDung>
 					</div>
 				</TabPanel>
 			</div>

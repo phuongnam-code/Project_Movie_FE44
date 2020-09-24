@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table, Tag, Space } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { delUserAction, getUserListAction } from "../../redux/actions/adminUserAction";
+import { edit_user } from "../../redux/types/adminType";
 
-function TableNguoiDung() {
+function TableNguoiDung({ showDrawer, setIsEdit }) {
+	const dsNguoiDung = useSelector((state) => state.adminReducer.dsNguoiDung);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getUserListAction());
+	}, []);
+
 	const columnsUser = [
 		{
 			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Tài khoản</p>,
@@ -24,22 +34,40 @@ function TableNguoiDung() {
 			key: "email",
 		},
 		{
-			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Số điện thoại</p>,
-			dataIndex: "soDt",
-			key: "soDt",
+			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Mã loại người dùng</p>,
+			dataIndex: "maLoaiNguoiDung",
+			key: "maLoaiNguoiDung",
 		},
 		{
 			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Thao tác</p>,
 			key: "action",
-			render: () => (
+			render: (user) => (
 				<Space size="middle">
-					<a href="#" style={{ color: "green" }}>
+					{/* <a href="#" style={{ color: "green" }}>
 						Ghi danh
-					</a>
-					<a href="#" style={{ color: "blue" }}>
+					</a> */}
+					<a
+						href="#"
+						style={{ color: "blue" }}
+						onClick={() => {
+							showDrawer();
+							setIsEdit(true);
+							dispatch({
+								type: edit_user,
+								user: user,
+							});
+						}}
+					>
 						Sửa
 					</a>
-					<a href="#" style={{ color: "red" }}>
+					<a
+						href="#"
+						style={{ color: "red" }}
+						onClick={() => {
+							console.log(user.taiKhoan);
+							dispatch(delUserAction(user.taiKhoan));
+						}}
+					>
 						Xóa
 					</a>
 				</Space>
@@ -47,31 +75,13 @@ function TableNguoiDung() {
 		},
 	];
 
-	const dataUser = [
-		{
-			taiKhoan: "nam1",
-			matKhau: "nam123",
-			hoTen: "Phương Nam",
-			email: "nam@gmail.com",
-			soDt: "0345 37 6868",
-		},
-		{
-			taiKhoan: "nam2",
-			matKhau: "nam123",
-			hoTen: "Phương Nam",
-			email: "nam@gmail.com",
-			soDt: "0345 37 6868",
-		},
-		{
-			taiKhoan: "nam3",
-			matKhau: "nam123",
-			hoTen: "Phương Nam",
-			email: "nam@gmail.com",
-			soDt: "0345 37 6868",
-		},
-	];
+	const dataUser = dsNguoiDung;
 
-	return <Table columns={columnsUser} dataSource={dataUser} style={{ textAlign: "center" }} />;
+	return (
+		<>
+			<Table columns={columnsUser} dataSource={dataUser} style={{ textAlign: "center" }} />
+		</>
+	);
 }
 
 export default TableNguoiDung;

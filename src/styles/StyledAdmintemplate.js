@@ -53,9 +53,29 @@ export const StyleAdminPage = styled.div`
 			.searchMovie,
 			.searchUser {
 				margin: 20px 0;
+				width: 70%;
+				display: flex;
+				align-items: center;
+				position: relative;
+
+				background: white;
 				.inputSearch {
-					width: 70%;
 					border-radius: 5px;
+					width: 100%;
+					border: 1px solid #d9d9d9;
+					border-radius: 5px;
+					outline: none;
+					padding: 4px 11px;
+					font-size: 14px;
+				}
+				.iconSearch {
+					position: absolute;
+					// top: 0;
+					right: 0;
+					margin: 0 10px;
+					// cursor: pointer;
+					display: inline-block;
+					opacity: 0.5;
 				}
 			}
 		}

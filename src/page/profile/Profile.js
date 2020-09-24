@@ -118,13 +118,13 @@ function Profile() {
 									</div>
 								) : (
 									<div>
-										<p>{userProfile.hoTen}</p>
-										<p>{userProfile.email}</p>
-										<p>{userProfile.taiKhoan}</p>
-										<p>{userProfile.matKhau}</p>
-										<p>{userProfile.soDT}</p>
-										<p>{userProfile.maNhom}</p>
-										<p>{userProfile.loaiNguoiDung}</p>
+										<p>{userProfile.hoTen ? userProfile.hoTen : "null"}</p>
+										<p>{userProfile.email ? userProfile.email : "null"}</p>
+										<p>{userProfile.taiKhoan ? userProfile.taiKhoan : "null"}</p>
+										<p>{userProfile.matKhau ? userProfile.matKhau : "null"}</p>
+										<p>{userProfile.soDT ? userProfile.soDT : "null"}</p>
+										<p>{userProfile.maNhom ? userProfile.maNhom : "null"}</p>
+										<p>{userProfile.loaiNguoiDung ? userProfile.loaiNguoiDung : "null"}</p>
 									</div>
 								)}
 							</Col>
