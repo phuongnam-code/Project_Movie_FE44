@@ -1,6 +1,6 @@
 import axios from "axios";
-import { MOVIE_API_URL } from "../../config/setting";
-import { get_movie_list } from "../types/adminType";
+import { MOVIE_API_URL, SEARCH_BASE_URL } from "../../config/setting";
+import { find_movie, get_movie_list } from "../types/adminType";
 
 export const getMovieListAction = () => {
 	return (dispatch) => {
@@ -13,6 +13,23 @@ export const getMovieListAction = () => {
 				dispatch({
 					type: get_movie_list,
 					dsPhim: res.data,
+				});
+			})
+			.catch((err) => console.log(err));
+	};
+};
+
+export const searchMovieAction = (keyword) => {
+	return (dispatch) => {
+		axios({
+			url: `${SEARCH_BASE_URL}${keyword}`,
+			method: "GET",
+		})
+			.then((res) => {
+				console.log(res.data);
+				dispatch({
+					type: find_movie,
+					searchResult: res.data,
 				});
 			})
 			.catch((err) => console.log(err));

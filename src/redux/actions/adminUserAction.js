@@ -67,20 +67,20 @@ export const editUserAction = (user) => {
 			});
 	};
 };
-export const delUserAction = (taiKhoan) => {
+export const delUserAction = (TaiKhoan) => {
 	let userLocal = JSON.parse(localStorage.getItem(userLogin));
-	console.log(taiKhoan);
+	console.log(TaiKhoan);
 	return (dispatch) => {
 		axios({
 			url: DEL_USER_URL,
 			method: "DELETE",
-			data: taiKhoan,
+			data: TaiKhoan,
 			headers: {
 				Authorization: `Bearer ${userLocal.accessToken}`,
 			},
 		})
 			.then((res) => {
-				console.log(res.data);
+				console.log(res);
 			})
 			.catch((err) => {
 				console.log(err.response.data);
@@ -96,7 +96,7 @@ export const findUserAction = (keyword) => {
 			.then((res) => {
 				// console.log(res.data);
 				dispatch({
-					type: "FIND_USER",
+					type: find_user,
 					searchResult: res.data,
 				});
 			})

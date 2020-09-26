@@ -64,7 +64,7 @@ function TableNguoiDung({ showDrawer, setIsEdit }) {
 						href="#"
 						style={{ color: "red" }}
 						onClick={() => {
-							console.log(user.taiKhoan);
+							// dispatch(delUserAction({ taiKhoan: user.taiKhoan }));
 							dispatch(delUserAction(user.taiKhoan));
 						}}
 					>

@@ -9,3 +9,4 @@ export const find_user = "FIND_USER";
 export const add_movie = "ADD_MOVIE";
 export const edit_movie = "EDIT_MOVIE";
 export const del_movie = "DEL_MOVIE";
+export const find_movie = "FIND_MOVIE";

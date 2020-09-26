@@ -10,6 +10,7 @@ import TablePhim from "./TablePhim";
 import DrawerLichChieu from "./DrawerLichChieu";
 import { useDispatch } from "react-redux";
 import { findUserAction, getUserListAction } from "../../redux/actions/adminUserAction";
+import { getMovieListAction, searchMovieAction } from "../../redux/actions/adminMovieAction";
 
 const titleDraw = (title = true) => (
 	<div style={{ fontSize: "26px", fontWeight: "600", textAlign: "center" }}>
@@ -45,8 +46,10 @@ function Content() {
 		timeOut.current = setTimeout(() => {
 			if (value === "") {
 				dispatch(getUserListAction());
+				dispatch(getMovieListAction());
 			}
 			dispatch(findUserAction(value.trim()));
+			dispatch(searchMovieAction(value.trim()));
 		}, 500);
 	};
 

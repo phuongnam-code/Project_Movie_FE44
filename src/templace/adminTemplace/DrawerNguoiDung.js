@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer, Col, Row } from "antd";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,16 +10,20 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 	const dispatch = useDispatch();
 	const message = useSelector((state) => state.alertReducer.message);
 	let editUser = useSelector((state) => state.adminReducer.editUser);
+	const [newInfoUser, setNewInfoUser] = useState({});
 
 	const onSubmit = (data) => {
-		console.log(isEdit);
 		// onClose();
 		if (isEdit) {
-			console.log("s");
 			dispatch(editUserAction(data));
 			return;
 		}
 		dispatch(addUserAction(data));
+	};
+	const handlChange = (event) => {
+		console.log(event.target.value);
+		setNewInfoUser({ matKhau: event.target.value });
+		console.log(newInfoUser);
 	};
 
 	return (
@@ -76,6 +80,7 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 									})}
 									name="matKhau"
 									value={editUser.matKhau}
+									onChange={handlChange}
 								/>
 							</Col>
 						</Row>
