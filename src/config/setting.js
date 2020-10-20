@@ -4,7 +4,7 @@ export const accessToken = "accessToken";
 export const systemCode = "cgv";
 export const groupID2 = "GP15";
 export const groupID = "GP14"; //mã nhóm phim
-export const domain = "http://movie0706.cybersoft.edu.vn"; //server
+export const domain = "https://movie0706.cybersoft.edu.vn";
 
 //API (1) => lấy danh sách phim, tìm kiếm
 export const PAGE_MOVIE_API_URL = `${domain}/api/QuanLyPhim/LayDanhSachPhim?maNhom=`;
@@ -37,16 +37,17 @@ export const PROFILE_CHANGE_URL = `${domain}/api/QuanLyNguoiDung/CapNhatThongTin
 
 //API (10) Thêm, xóa, sửa người dùng
 export const ADD_USER_URL = `${domain}/api/QuanLyNguoiDung/ThemNguoiDung`;
-export const DEL_USER_URL = `${domain}/api/QuanLyNguoiDung/XoaNguoiDung`;
+export const DEL_USER_URL = `${domain}/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=`;
 export const EDIT_USER_URL = `${domain}/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung`;
-export const SEARCH_USER_URL = `${domain}/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=gp01&tuKhoa=`;
+export const SEARCH_USER_URL = `${domain}/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=`;
 export const GET_USER_LIST_URL = `${domain}/api/QuanLyNguoiDung/LayDanhSachNguoiDung`;
 
 //API (11) Thêm, xóa, sửa phim
-export const ADD_MOVIE_URL = `${domain}/api/QuanLyPhim/ThemPhim`;
+export const ADD_MOVIE_URL = `${domain}/api/QuanLyPhim/ThemPhimUploadHinh`;
 export const DEL_MOVIE_URL = `${domain}/api/QuanLyPhim/XoaPhim?MaPhim=`;
 export const EDIT_MOVIE_URL = `${domain}/api/QuanLyPhim/CapNhatPhim`;
 export const UP_IMG_MOVIE_URL = `${domain}/api/QuanLyPhim/UploadHinhAnhPhim`;
+export const SEARCH_MOVIE_NUM_URL = `${domain}/api/QuanLyPhim/LayThongTinPhim?MaPhim=`;
 
 //API (12) Tạo lịch chiếu
 export const CREATE_SHOWTIMES_URL = `${domain}/api/QuanLyDatVe/TaoLichChieu`;

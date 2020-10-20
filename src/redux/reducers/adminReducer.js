@@ -1,9 +1,10 @@
-import { edit_user, find_movie, find_user, get_movie_list, get_user_list } from "../types/adminType";
+import { edit_movie, edit_user, find_movie, find_user, get_movie_list, get_user_list } from "../types/adminType";
 
 const initialState = {
 	dsNguoiDung: [],
 	dsPhim: [],
 	editUser: {},
+	editMovie: {},
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -18,6 +19,10 @@ const adminReducer = (state = initialState, action) => {
 		}
 		case edit_user: {
 			state.editUser = action.user;
+			return { ...state };
+		}
+		case edit_movie: {
+			state.editMovie = action.movie;
 			return { ...state };
 		}
 		case find_user: {

@@ -60,30 +60,44 @@ export const editUserAction = (user) => {
 			},
 		})
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
+				dispatch({
+					type: alertTypes.SUCCESS,
+					message: "Cập nhật thông tin user thành công!",
+				});
 			})
 			.catch((err) => {
 				console.log(err.response);
+				dispatch({
+					type: alertTypes.ERROR,
+					message: err.response.data,
+				});
 			});
 	};
 };
 export const delUserAction = (TaiKhoan) => {
 	let userLocal = JSON.parse(localStorage.getItem(userLogin));
-	console.log(TaiKhoan);
 	return (dispatch) => {
 		axios({
-			url: DEL_USER_URL,
+			url: `${DEL_USER_URL}${TaiKhoan}`,
 			method: "DELETE",
-			data: TaiKhoan,
 			headers: {
 				Authorization: `Bearer ${userLocal.accessToken}`,
 			},
 		})
 			.then((res) => {
-				console.log(res);
+				// console.log(res.data);
+				dispatch({
+					type: alertTypes.SUCCESS,
+					message: res.data,
+				});
 			})
 			.catch((err) => {
-				console.log(err.response.data);
+				// console.log(err.response.data);
+				dispatch({
+					type: alertTypes.ERROR,
+					message: err.response.data,
+				});
 			});
 	};
 };

@@ -10,13 +10,7 @@ import TablePhim from "./TablePhim";
 import DrawerLichChieu from "./DrawerLichChieu";
 import { useDispatch } from "react-redux";
 import { findUserAction, getUserListAction } from "../../redux/actions/adminUserAction";
-import { getMovieListAction, searchMovieAction } from "../../redux/actions/adminMovieAction";
-
-const titleDraw = (title = true) => (
-	<div style={{ fontSize: "26px", fontWeight: "600", textAlign: "center" }}>
-		<p>{title}</p>
-	</div>
-);
+import { getMovieListAction, searchMovieWithNumberAction, searchMovieWithNameAction } from "../../redux/actions/adminMovieAction";
 
 function Content() {
 	const [stateDrawer, setStateDrawer] = useState(false);
@@ -25,6 +19,7 @@ function Content() {
 	const dispatch = useDispatch();
 	const [searchTerm, setSearchTerm] = useState("");
 	const timeOut = useRef(null);
+	const [searchtype, setSearchType] = useState(false);
 
 	const showDrawer = () => {
 		setStateDrawer(true);
@@ -49,7 +44,10 @@ function Content() {
 				dispatch(getMovieListAction());
 			}
 			dispatch(findUserAction(value.trim()));
-			dispatch(searchMovieAction(value.trim()));
+			// if (searchtype) {
+			// 	dispatch(searchMovieWithNumberAction(value.trim()));
+			// }
+			dispatch(searchMovieWithNameAction(value.trim()));
 		}, 500);
 	};
 
@@ -63,18 +61,43 @@ function Content() {
 			<div className="contentAdmin_right">
 				<TabPanel>
 					<div className="addMovie">
-						<Button type="primary" onClick={showDrawer}>
+						<Button
+							type="primary"
+							onClick={() => {
+								showDrawer();
+								setIsEdit(false);
+							}}
+						>
 							<PlusOutlined /> Thêm phim
 						</Button>
-						<DrawerPhim onClose={onClose} stateDrawer={stateDrawer} titleDraw={titleDraw} isEdit={isEdit} />
+						<DrawerPhim onClose={onClose} stateDrawer={stateDrawer} isEdit={isEdit} />
+					</div>
+					<div className="check">
+						<label>
+							<input type="radio" name="typeSearch" value="maPhim" onClick={() => setSearchType(true)} />
+							Mã phim
+						</label>
+						<label>
+							<input type="radio" name="typeSearch" value="tenPhim" defaultChecked onClick={() => setSearchType(false)} />
+							Tên phim
+						</label>
 					</div>
 					<div className="searchMovie">
 						<input className="inputSearch" placeholder="Nhập vào tên phim hoặc mã phim" value={searchTerm} onChange={handleChange} />
 						<SearchOutlined className="iconSearch" />
 					</div>
+
 					<div className="tableMovie">
-						<TablePhim htLichChieu={htLichChieu} />
-						<DrawerLichChieu onClose={onClose} drawerLichChieu={drawerLichChieu} titleDraw={titleDraw} />
+						<TablePhim
+							htLichChieu={htLichChieu}
+							onClose={onClose}
+							stateDrawer={stateDrawer}
+							showDrawer={showDrawer}
+							setIsEdit={setIsEdit}
+						>
+							<DrawerPhim onClose={onClose} stateDrawer={stateDrawer} isEdit={isEdit} />
+							<DrawerLichChieu onClose={onClose} drawerLichChieu={drawerLichChieu} />
+						</TablePhim>
 					</div>
 				</TabPanel>
 				<TabPanel>

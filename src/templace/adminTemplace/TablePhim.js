@@ -1,11 +1,13 @@
 import React from "react";
 import { Table, Tag, Space } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { getMovieListAction } from "../../redux/actions/adminMovieAction";
+import { delMovieAction, getMovieListAction } from "../../redux/actions/adminMovieAction";
+import { edit_movie } from "../../redux/types/adminType";
 
-function TablePhim({ htLichChieu }) {
+function TablePhim({ htLichChieu, showDrawer, setIsEdit }) {
 	const dsPhim = useSelector((state) => state.adminReducer.dsPhim);
 	const dispatch = useDispatch();
+
 	React.useEffect(() => {
 		dispatch(getMovieListAction());
 	}, []);
@@ -39,15 +41,32 @@ function TablePhim({ htLichChieu }) {
 		{
 			title: <p style={{ fontWeight: "600", fontSize: "16px" }}>Chức năng</p>,
 			key: "action",
-			render: () => (
+			render: (movie) => (
 				<Space size="middle">
 					<a href="#" style={{ color: "green" }} onClick={htLichChieu}>
 						Tạo lịch chiếu
 					</a>
-					<a href="#" style={{ color: "blue" }}>
+					<a
+						href="#"
+						style={{ color: "blue" }}
+						onClick={() => {
+							showDrawer();
+							setIsEdit(true);
+							dispatch({
+								type: edit_movie,
+								movie: movie,
+							});
+						}}
+					>
 						Sửa
 					</a>
-					<a href="#" style={{ color: "red" }}>
+					<a
+						href="#"
+						style={{ color: "red" }}
+						onClick={() => {
+							dispatch(delMovieAction(movie.maPhim));
+						}}
+					>
 						Xóa
 					</a>
 				</Space>

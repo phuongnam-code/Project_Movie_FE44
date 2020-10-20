@@ -12,8 +12,13 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 	let editUser = useSelector((state) => state.adminReducer.editUser);
 	const [newInfoUser, setNewInfoUser] = useState({});
 
+	useEffect(() => {
+		setNewInfoUser(editUser);
+	}, [editUser]);
+
 	const onSubmit = (data) => {
 		// onClose();
+		console.log(data);
 		if (isEdit) {
 			dispatch(editUserAction(data));
 			return;
@@ -21,9 +26,10 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 		dispatch(addUserAction(data));
 	};
 	const handlChange = (event) => {
-		console.log(event.target.value);
-		setNewInfoUser({ matKhau: event.target.value });
-		console.log(newInfoUser);
+		// console.log(event.target.value);
+		const { value } = event.target;
+		setNewInfoUser({ name: value });
+		// console.log(newInfoUser);
 	};
 
 	return (
@@ -60,7 +66,7 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 										required: "taiKhoan is required",
 									})}
 									name="taiKhoan"
-									value={editUser.taiKhoan}
+									value={newInfoUser.taiKhoan}
 								/>
 							</Col>
 							<Col span={12}>
@@ -79,7 +85,7 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 										},
 									})}
 									name="matKhau"
-									value={editUser.matKhau}
+									value={newInfoUser.matKhau}
 									onChange={handlChange}
 								/>
 							</Col>
@@ -99,7 +105,8 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 										},
 									})}
 									name="email"
-									value={editUser.email}
+									value={newInfoUser.email}
+									onChange={handlChange}
 								/>
 							</Col>
 							<Col span={12}>
@@ -114,7 +121,8 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 										required: "soDt is required",
 									})}
 									name="soDt"
-									value={editUser.soDt}
+									value={newInfoUser.soDt}
+									onChange={handlChange}
 								/>
 							</Col>
 						</Row>
@@ -131,7 +139,8 @@ function DrawerNguoiDung({ onClose, stateDrawer, isEdit }) {
 										required: "hoTen is required",
 									})}
 									name="hoTen"
-									value={editUser.hoTen}
+									value={newInfoUser.hoTen}
+									onChange={handlChange}
 								/>
 							</Col>
 							<Col span={12}>

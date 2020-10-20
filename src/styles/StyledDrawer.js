@@ -51,3 +51,10 @@ export const styleSpan = {
 	fonWeight: "400",
 	whiteSpace: "nowrap",
 };
+export const styleTextarea = {
+	width: "100%",
+	border: "1px solid #d9d9d9",
+	padding: "4px 11px",
+	outline: "none",
+	borderRadius: "2px",
+};

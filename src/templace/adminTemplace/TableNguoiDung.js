@@ -3,14 +3,23 @@ import { Table, Tag, Space } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { delUserAction, getUserListAction } from "../../redux/actions/adminUserAction";
 import { edit_user } from "../../redux/types/adminType";
+import { alertTypes } from "../../redux/types/alertType";
 
 function TableNguoiDung({ showDrawer, setIsEdit }) {
 	const dsNguoiDung = useSelector((state) => state.adminReducer.dsNguoiDung);
 	const dispatch = useDispatch();
+	const message = useSelector((state) => state.alertReducer.message);
 
 	useEffect(() => {
 		dispatch(getUserListAction());
 	}, []);
+
+	useEffect(() => {
+		if (message) {
+			alert(message);
+			dispatch({ type: alertTypes.CLEAR });
+		}
+	}, [message]);
 
 	const columnsUser = [
 		{
@@ -64,7 +73,6 @@ function TableNguoiDung({ showDrawer, setIsEdit }) {
 						href="#"
 						style={{ color: "red" }}
 						onClick={() => {
-							// dispatch(delUserAction({ taiKhoan: user.taiKhoan }));
 							dispatch(delUserAction(user.taiKhoan));
 						}}
 					>

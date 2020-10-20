@@ -78,6 +78,15 @@ export const StyleAdminPage = styled.div`
 					opacity: 0.5;
 				}
 			}
+			.searchMovie {
+				margin-top: 10px;
+			}
+			.check {
+				margin-top: 10px;
+				label {
+					margin-right: 10px;
+				}
+			}
 		}
 	}
 `;
